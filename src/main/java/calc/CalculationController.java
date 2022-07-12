@@ -30,4 +30,10 @@ public class CalculationController {
                 .orElseThrow(() -> new CalculationNotFoundException(id));
     }
 
+
+    @PostMapping("/kane")
+    Calculation kane(@RequestBody CalculationDto newCalculationDto) {
+        new KaneFormula().post();
+        return null;
+    }
 }

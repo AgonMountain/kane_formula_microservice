@@ -1,9 +1,13 @@
 package calc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.text.ParseException;
+
 public class Eye {
 
-    private String isToric;
-    private String isKeratoconus;
+    private Boolean isToric;
+    private Boolean isKeratoconus;
     private String targetRefraction;
     private String constantA;
     private String al;
@@ -15,8 +19,8 @@ public class Eye {
 
     Eye() {}
 
-    Eye(String isToric,
-        String isKeratoconus,
+    Eye(Boolean isToric,
+        Boolean isKeratoconus,
         String targetRefraction,
         String constantA,
         String al,
@@ -38,11 +42,11 @@ public class Eye {
         this.cct = cct;
     }
 
-    public String getIsToric() {
+    public Boolean getIsToric() {
         return this.isToric;
     }
 
-    public String getIsKeratoconus() {
+    public Boolean getIsKeratoconus() {
         return this.isKeratoconus;
     }
 
@@ -76,5 +80,11 @@ public class Eye {
 
     public String getCct() {
         return this.cct;
+    }
+
+    public String toJson() throws ParseException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        return mapper.writeValueAsString(this);
     }
 }
