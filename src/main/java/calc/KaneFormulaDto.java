@@ -46,26 +46,32 @@ public class KaneFormulaDto {
 
     public Eye getRightEye() {
 
-        if (this.rightEye.getEyeToric() != null) {
-            return new Eye(this.rightEye.getEyeToric(), this.rightEye.getConstantA(),
-                    this.rightEye.getIsKeratoconus(), this.rightEye.getTargetRefraction());
+        if (this.rightEye != null) {
+            if (this.rightEye.getEyeToric() != null) {
+                return new Eye(this.rightEye.getEyeToric(), this.rightEye.getConstantA(),
+                        this.rightEye.getIsKeratoconus(), this.rightEye.getTargetRefraction());
+            }
+            else {
+                return new Eye(this.rightEye.getEyeNonToric(), this.rightEye.getConstantA(),
+                        this.rightEye.getIsKeratoconus(), this.rightEye.getTargetRefraction());
+            }
         }
-        else {
-            return new Eye(this.rightEye.getEyeNonToric(), this.rightEye.getConstantA(),
-                    this.rightEye.getIsKeratoconus(), this.rightEye.getTargetRefraction());
-        }
-
+        return null;
     }
 
     public Eye getLeftEye() {
-        if (this.leftEye.getEyeToric() != null) {
-            return new Eye(this.leftEye.getEyeToric(), this.leftEye.getConstantA(),
-                    this.leftEye.getIsKeratoconus(), this.leftEye.getTargetRefraction());
+
+        if (this.leftEye != null) {
+            if (this.leftEye.getEyeToric() != null) {
+                return new Eye(this.leftEye.getEyeToric(), this.leftEye.getConstantA(),
+                        this.leftEye.getIsKeratoconus(), this.leftEye.getTargetRefraction());
+            }
+            else {
+                return new Eye(this.leftEye.getEyeNonToric(), this.leftEye.getConstantA(),
+                        this.leftEye.getIsKeratoconus(), this.leftEye.getTargetRefraction());
+            }
         }
-        else {
-            return new Eye(this.leftEye.getEyeNonToric(), this.leftEye.getConstantA(),
-                    this.leftEye.getIsKeratoconus(), this.leftEye.getTargetRefraction());
-        }
+        return null;
     }
 
 }
