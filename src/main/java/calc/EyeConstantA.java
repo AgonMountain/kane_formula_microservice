@@ -1,17 +1,19 @@
 package calc;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
 
+
 public class EyeConstantA {
 
-    @JsonProperty("aconstant") private String constantA;
-    @JsonProperty("ioltype") private String iolType;
-    @JsonProperty("ioltype_str") private String iolTypeStr;
-    @JsonProperty("sifitype") private int sifiType;
+    private String constantA;
+    private String iolType;
+    private String iolTypeStr;
+    private int sifiType;
+
+    EyeConstantA() {}
 
     EyeConstantA(String constantA, ConstantA type) {
 
@@ -42,7 +44,7 @@ public class EyeConstantA {
     }
 
     private String constantAValue(String constantA, ConstantA type) {
-        return !constantA.equals("") ? constantADefaultValue(type) : constantA;
+        return constantA.equals("") ? constantADefaultValue(type) : constantA;
     }
 
     private String constantADefaultValue(ConstantA type) {
@@ -66,8 +68,15 @@ public class EyeConstantA {
         return "";
     }
 
-    public String toJson() throws ParseException, IOException {
-        return new ObjectMapper().writeValueAsString(this).replace("\"", "\\\"");
+    public JSONObject toJson() throws ParseException, IOException {
+        JSONObject json = new JSONObject();
+
+        json.put("aconstant", this.constantA);
+        json.put("ioltype", this.iolType);
+        json.put("ioltype_str", this.iolTypeStr);
+        json.put("sifitype", this.sifiType);
+
+        return json;
     }
 
 }

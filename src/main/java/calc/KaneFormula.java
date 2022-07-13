@@ -1,48 +1,58 @@
 package calc;
 
+import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Collections;
-import java.util.Map;
+import java.util.Iterator;
+
 
 public class KaneFormula {
 
-    private @Id @GeneratedValue long id;
-    private String surgeon;
+    private String surgeonName;
     private String patientName;
     private String patientId;
-    private String index;
+    private String kIndex;
     private boolean isMale;
     private Eye rightEye;
     private Eye leftEye;
 
-    KaneFormula() {
-        post();
+    private String result;
+
+    KaneFormula() throws ParseException, IOException {
+
     }
 
-    KaneFormula(String surgeon,
+    KaneFormula(String surgeonName,
                 String patientName,
                 String patientId,
-                String index,
+                String kIndex,
                 boolean isMale,
                 Eye rightEye,
-                Eye leftEye) {
+                Eye leftEye) throws ParseException, IOException {
 
-        this.surgeon = surgeon;
+        this.surgeonName = surgeonName;
         this.patientName = patientName;
         this.patientId = patientId;
-        this.index = index;
+        this.kIndex = kIndex;
         this.isMale = isMale;
         this.rightEye = rightEye;
         this.leftEye = leftEye;
+
+        this.result = post();
     }
 
-    public String post() {
+    public String getResult() {
+        return this.result;
+    }
+
+    private String post() throws ParseException, IOException {
+
         String url = "https://www.iolformula.com/api/";
 
         HttpHeaders headers = new HttpHeaders();
@@ -52,30 +62,8 @@ public class KaneFormula {
         MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
         map.add("action", "kfapi");
         map.add("__xr", "1");
-
-        this.index = "1.3375";
-        String z = "{\"mx\":\"{\\\"surgeon_name\\\":\\\"" + this.surgeon + "\\\"" +
-                ",\\\"patient_name\\\":\\\"" + this.patientName + "\\\"" +
-                ",\\\"id\\\":\\\"" + this.patientId + "\\\"" +
-                ",\\\"kindex\\\":\\\"" + this.index + "\\\"" +
-                ",\\\"is_male\\\":" + Integer.toString(this.isMale ? 1 : 0) +
-                ",\\\"is_female\\\":" + Integer.toString(this.isMale ? 0 : 1) +
-                ",\\\"eye1\\\":" +
-                    "{\\\"nontoric\\\"" + Integer.toString(this.rightEye.getIsToric() ? 0 : 1) +
-                    ",\\\"toric\\\":" + Integer.toString(this.rightEye.getIsToric() ? 1 : 0) +
-                    ",\\\"keratoconus\\\":" + Integer.toString(this.rightEye.getIsKeratoconus() ? 1 : 0) +
-                    ",\\\"aconstant\\\":\\\"" + this.rightEye.getConstantA() + "\\\"" +
-                    ",\\\"ioltype\\\":\\\"" + "0" + "\\\"" +                                                // TODO
-                    ",\\\"ioltype_str\\\":\\\"" + "" + "\\\"" +                                                 // TODO
-                    ",\\\"sifitype\\\":" + "0" + "\\\"" +               // TODO
-                    ",\\\"target_ref\\\":\\\"" + this.rightEye.getTargetRefraction() + "\\\"" +
-                    ",\\\"al\\\":\\\"" + this.rightEye.getAl() + "\\\""
-
-
-                ;
-
-
-        map.add("z", z+",\\\"eye1\\\":{\\\"nontoric\\\":1,\\\"toric\\\":0,\\\"keratoconus\\\":1,\\\"aconstant\\\":\\\"110.5\\\",\\\"ioltype\\\":\\\"0\\\",\\\"ioltype_str\\\":\\\"\\\",\\\"sifitype\\\":0,\\\"target_ref\\\":\\\"-4\\\",\\\"al\\\":\\\"27\\\",\\\"k1\\\":\\\"39\\\",\\\"k2\\\":\\\"40\\\",\\\"acd\\\":\\\"4.22\\\",\\\"lt\\\":\\\"\\\",\\\"cct\\\":\\\"\\\",\\\"al_t\\\":\\\"27\\\",\\\"k1_t\\\":\\\"39\\\",\\\"k2_t\\\":\\\"40\\\",\\\"acd_t\\\":\\\"4.22\\\",\\\"lt_t\\\":\\\"\\\",\\\"cct_t\\\":\\\"\\\",\\\"k1_t_axis\\\":\\\"\\\",\\\"k2_t_axis\\\":\\\"\\\",\\\"sia\\\":\\\"\\\",\\\"inc\\\":\\\"\\\",\\\"is_set\\\":true,\\\"is_valid\\\":true},\\\"eye2\\\":{\\\"nontoric\\\":1,\\\"toric\\\":0,\\\"keratoconus\\\":0,\\\"aconstant\\\":\\\"119\\\",\\\"ioltype\\\":\\\"0\\\",\\\"ioltype_str\\\":\\\"\\\",\\\"sifitype\\\":0,\\\"target_ref\\\":\\\"-4\\\",\\\"al\\\":\\\"25\\\",\\\"k1\\\":\\\"34\\\",\\\"k2\\\":\\\"60\\\",\\\"acd\\\":\\\"1.9\\\",\\\"lt\\\":\\\"7.2\\\",\\\"cct\\\":\\\"410\\\",\\\"al_t\\\":\\\"25\\\",\\\"k1_t\\\":\\\"34\\\",\\\"k2_t\\\":\\\"60\\\",\\\"acd_t\\\":\\\"1.9\\\",\\\"lt_t\\\":\\\"7.2\\\",\\\"cct_t\\\":\\\"410\\\",\\\"k1_t_axis\\\":\\\"\\\",\\\"k2_t_axis\\\":\\\"\\\",\\\"sia\\\":\\\"\\\",\\\"inc\\\":\\\"\\\",\\\"is_set\\\":true,\\\"is_valid\\\":true},\\\"id2\\\":\\\"03ANYolqvO8O2l8sNC-g0yBbYOddhL9-HusLlXX44jWpU3iape5io4xq9NriX83WD2xtzhtpMc2LiQtinrlDtWiWaC9Yx1SGp_0Jkw2frCjkyDWgyPfg7ToudDnN1pC3bmBPx8-i1X1mXW-lEW8cu1YvOLEGNgMpVxJNFXNEpjTP_cuKsvUBfteSV2MTu_45NdXhMkeN_fX_cpNigMoC0DsddhztxB-1xwdbyeqACBC18XtO21j_v614c9mSLykDvbkNuxjheQGFpIIEH-KIZcwDE3iDHCuK7iB6a3dpKmXoyVWiKB1bHy3IGx6lnZW0hN1JysRR5YMwOr9OOsw_mfiJQP4_xVkYE0Ab16Q7MuU6H19H-r4aCRnJm3KRrLO-S67UMlX8MJ1ZdZdWZK6JBic5rT_GWWBDtn8k7IdCgi_ghpgrDdjYhyI4VqNNjzw_nb-OfTo0nHJMj_\\\",\\\"id3\\\":\\\"0.9828209174387013_670\\\",\\\"v\\\":{\\\"com\\\":{\\\"is_valid\\\":true},\\\"eye1\\\":{\\\"k1_t_axis\\\":1,\\\"sia\\\":1,\\\"inc\\\":1,\\\"is_valid\\\":true},\\\"eye2\\\":{\\\"k1_t_axis\\\":1,\\\"sia\\\":1,\\\"inc\\\":1,\\\"is_valid\\\":true}}}\",\"jx_action\":\"wh\"}");
+        String p = this.createRequest().toString();
+        map.add("z", this.createRequest().toString());
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
@@ -89,4 +77,64 @@ public class KaneFormula {
         }
     }
 
+    private JSONObject createRequest() throws ParseException, IOException {
+
+        JSONObject json = new JSONObject();
+
+        json.put("surgeon_name", this.surgeonName);
+        json.put("patient_name", this.patientName);
+        json.put("id", this.patientId);
+        json.put("kindex", this.kIndex);
+        json.put("is_male", this.isMale ? 1 : 0);
+        json.put("is_female", this.isMale ? 0 : 1);
+
+        if(this.rightEye != null) {
+            json.put("eye1", this.rightEye.toJson());
+        }
+        if(this.leftEye != null) {
+            json.put("eye2", this.leftEye.toJson());
+        }
+
+        // ????
+        String id2 = "03ANYolqto2fvNB6WRAiFToxyDBDurExGoSARTBVRTTzEMoxUT9CP7tcV8LZ2OhJsiX31b7QB2SfFfH4to1C-ng-GDUwZBHW-Bz-NHiaCEIMCh3zqW39wS8hUUGV6-mRZ2P5DE4u2Ow0ZgcZB4qer5UqQMMNJLsA7GcOueKv7VHyYH-QBYMcc-5KVEn7lURE2MjqmwwbppropsL407EJMyBvvDPEQ-6tIT5U4DZERWiXkmKB-g1RJ0BHJCHo3suVwv2zF2c0UHsNUFueliA4JwnCtZT3KhI5JOLKUQIXjqMGW4ZfS0gyXjMLDVIOd1llDWV27gIxs1VVkWUhtI_qmhzo_lBFF4i_nZLnda5gMBZ5ro8gpsETTUYWma1xyuFVeVVeCACrZn57zwPYJ6zrivOk30j-9WV6ZLhUmSZsPIR-zZG4Jkc9NIEqzgwRtvjtkRIw9yYTIqaGzv";
+        json.put("id2", id2);
+        // ????
+        String id3 = "0.9828209174387013_670";
+        json.put("id3", id3);
+        // ????
+        JSONObject com = new JSONObject();
+        com.put("is_valid", true);
+        // ????
+        JSONObject rightEye = new JSONObject();
+        com.put("is_valid", true);
+        // ????
+        JSONObject leftEye = new JSONObject();
+        com.put("is_valid", true);
+        com.put("k1_t_axis", 1);
+        com.put("sia", 1);
+        com.put("inc", 1);
+        // ????
+        JSONObject v = new JSONObject();
+        v.put("com", com);
+        v.put("eye1", rightEye);
+        v.put("eye2", leftEye);
+        // ????
+        json.put("v", id3);
+        // ????
+        JSONObject mx = new JSONObject();
+        mx.put("mx", json.toString());
+        mx.put("jx_action", "wh");    // ????
+
+        return mx;
+    }
+
+    private JSONObject embed(JSONObject main, JSONObject embedded) {
+        JSONObject newJson = new JSONObject(main, JSONObject.getNames(main));
+        Iterator<String> key = embedded.keys();
+        while (key.hasNext()) {
+            String k = key.next();
+            newJson.put(k, embedded.get(k));
+        }
+        return newJson;
+    }
 }

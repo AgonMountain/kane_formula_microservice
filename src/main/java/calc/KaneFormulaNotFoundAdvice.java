@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+
 @ControllerAdvice
-public class CalculationNotFoundAdvice {
+public class KaneFormulaNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(CalculationNotFoundException.class)
+    @ExceptionHandler(KaneFormulaNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String calculationNotFoundHandler(CalculationNotFoundException ex) {
+    String kaneFormulaNotFoundHandler(KaneFormulaNotFoundException ex) {
         return ex.getMessage();
     }
 }
