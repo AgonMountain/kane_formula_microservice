@@ -1,10 +1,10 @@
 package calc;
 
-public enum KaneFormulaConstantA {
+public enum ConstantA {
 
     IOL_Type,
     Alcon_SN60WF,
-    Alcon_SN60AT,
+    Alcon_SA60AT,
     Alcon_MN60MA,
     HumanOptics_TORICA,
     SIFI_Mini_Toric,
