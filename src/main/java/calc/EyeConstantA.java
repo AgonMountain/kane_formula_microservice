@@ -1,6 +1,10 @@
 package calc;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class EyeConstantA {
 
@@ -60,6 +64,10 @@ public class EyeConstantA {
             case Primus_HD_Toric -> { return "119.2"; }
         }
         return "";
+    }
+
+    public String toJson() throws ParseException, IOException {
+        return new ObjectMapper().writeValueAsString(this).replace("\"", "\\\"");
     }
 
 }
