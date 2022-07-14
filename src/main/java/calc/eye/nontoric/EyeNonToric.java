@@ -1,4 +1,4 @@
-package calc;
+package calc.eye.nontoric;
 
 import org.json.JSONObject;
 
@@ -16,9 +16,9 @@ public class EyeNonToric {
     private String lt;
     private String cct;
 
-    EyeNonToric() {}
+    public EyeNonToric() {}
 
-    EyeNonToric(String al, String k1, String k2, String acd, String lt, String cct) {
+    public EyeNonToric(String al, String k1, String k2, String acd, String lt, String cct) {
         this.al = al;
         this.k1 = k1;
         this.k2 = k2;

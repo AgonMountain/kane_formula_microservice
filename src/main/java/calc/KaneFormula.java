@@ -1,5 +1,6 @@
 package calc;
 
+import calc.eye.Eye;
 import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -24,11 +25,11 @@ public class KaneFormula {
 
     private String result;
 
-    KaneFormula() throws ParseException, IOException {
+    public KaneFormula() throws ParseException, IOException {
 
     }
 
-    KaneFormula(String surgeonName,
+    public KaneFormula(String surgeonName,
                 String patientName,
                 String patientId,
                 String kIndex,

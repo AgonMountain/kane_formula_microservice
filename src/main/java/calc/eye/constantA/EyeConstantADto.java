@@ -1,17 +1,21 @@
-package calc;
+package calc.eye.constantA;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.json.JSONObject;
 
 public class EyeConstantADto {
 
     private @JsonProperty("constant_a") String constantA;
     private @JsonProperty("type") String iolTypeStr;
 
+    private JSONObject errors;
 
-    EyeConstantADto(String constantA, String iolTypeStr) {
+    public EyeConstantADto(String constantA, String iolTypeStr) {
         this.constantA = constantA;
         this.iolTypeStr = iolTypeStr;
+
+        this.errors = new JSONObject();
     }
 
     public String getConstantA() {
@@ -40,12 +44,17 @@ public class EyeConstantADto {
     }
 
     public boolean isValid() {
+        EyeConstantAValidator validator = new EyeConstantAValidator();
+        Boolean isValid = validator.isConstantAValid(this.constantA, this.iolTypeStr);
+        isValid = validator.isConstantTypeValid(this.iolTypeStr) && isValid;
 
-        if (this.constantA.equals("")) {
-            return this.getConstantType() != null;
-        }
+        this.errors = validator.errors();
 
-        return (110 <= Float.parseFloat(this.constantA) && Float.parseFloat(this.constantA) <= 125);
+        return isValid;
+    }
+
+    public JSONObject errors() {
+        return this.errors;
     }
 
 }

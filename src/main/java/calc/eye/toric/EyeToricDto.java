@@ -1,4 +1,7 @@
-package calc;
+package calc.eye.toric;
+
+import calc.eye.toric.EyeToricValidator;
+import org.json.JSONObject;
 
 public class EyeToricDto {
 
@@ -13,7 +16,9 @@ public class EyeToricDto {
     private String sia;
     private String incision;
 
-    EyeToricDto(String al, String k1, String k2, String acd,
+    private JSONObject errors;
+
+    public EyeToricDto(String al, String k1, String k2, String acd,
                 String lt, String cct, String k1_axis, String k2_axis,
                 String sia, String incision) {
         
@@ -27,6 +32,8 @@ public class EyeToricDto {
         this.k2_axis = k2_axis;
         this.sia = sia;
         this.incision = incision;
+
+        this.errors = new JSONObject();
     }
 
     public String getAl() {
@@ -72,16 +79,25 @@ public class EyeToricDto {
     public boolean isValid() {
         EyeToricValidator validator = new EyeToricValidator();
 
-        return (validator.isAlValid(this.al) &&
-                validator.isK1Valid(this.k1) &&
-                validator.isK2Valid(this.k1, this.k2) &&
-                validator.isAcdValid(this.acd) &&
-                validator.isLtValid(this.lt) &&
-                validator.isCctValid(this.cct) &&
-                validator.isIncisionValid(this.incision) &&
-                validator.isK1axisValid(this.k1) &&
-                validator.isSiaValid(this.sia));
-                //&& validator.isK2axisValid(this.k2)); // TODO check KaneFormulaValidator isK2axisValid()
+        Boolean isValid = validator.isAlValid(this.al);
+        isValid = validator.isK1Valid(this.k1) && isValid;
+        isValid = validator.isK2Valid(this.k1, this.k2) && isValid;
+        isValid = validator.isAcdValid(this.acd) && isValid;
+        isValid = validator.isLtValid(this.lt) && isValid;
+        isValid = validator.isCctValid(this.cct) && isValid;
+        isValid = validator.isIncisionValid(this.incision) && isValid;
+        isValid = validator.isK1axisValid(this.k1) && isValid;
+        isValid = validator.isSiaValid(this.sia) && isValid;
+
+        //&& validator.isK2axisValid(this.k2)); // TODO check KaneFormulaValidator isK2axisValid()
+
+        this.errors = validator.errors();
+
+        return isValid;
+    }
+
+    public JSONObject errors() {
+        return this.errors;
     }
 
 }

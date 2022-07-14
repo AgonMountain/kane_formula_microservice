@@ -1,7 +1,10 @@
 package calc;
 
 
+import calc.eye.Eye;
+import calc.eye.EyeDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.json.JSONObject;
 
 public class KaneFormulaDto {
 
@@ -9,12 +12,14 @@ public class KaneFormulaDto {
     private @JsonProperty("patient_name") String patientName;
     private @JsonProperty("patient_id") String patientId;
     private @JsonProperty("k_index") String kIndex;
-    private @JsonProperty("is_male") String isMale;
+    private @JsonProperty("is_male") Boolean isMale;
     private @JsonProperty("right_eye") EyeDto rightEye;
     private @JsonProperty("left_eye") EyeDto leftEye;
 
-    KaneFormulaDto(String surgeonName, String patientName, String patientId,
-                   String kIndex, String isMale, EyeDto rightEye, EyeDto leftEye) {
+    private JSONObject errors;
+
+    public KaneFormulaDto(String surgeonName, String patientName, String patientId,
+                   String kIndex, Boolean isMale, EyeDto rightEye, EyeDto leftEye) {
         this.surgeonName = surgeonName;
         this.patientName = patientName;
         this.patientId = patientId;
@@ -22,6 +27,8 @@ public class KaneFormulaDto {
         this.isMale = isMale;
         this.rightEye = rightEye;
         this.leftEye = leftEye;
+
+        this.errors = new JSONObject();
     }
 
     public String getSurgeonName() {
@@ -41,7 +48,7 @@ public class KaneFormulaDto {
     }
 
     public Boolean getIsMale() {
-        return this.isMale.equals("1");
+        return this.isMale;
     }
 
     public Eye getRightEye() {
@@ -78,8 +85,23 @@ public class KaneFormulaDto {
     public boolean isValid() {
         KaneFormulaValidator validator = new KaneFormulaValidator();
 
-        return (validator.isKindexValid(this.kIndex) &&
-                (this.rightEye == null || this.rightEye.isValid()) &&
-                (this.leftEye == null || this.leftEye.isValid()));
+        Boolean isValid = validator.isKindexValid(this.kIndex);
+        isValid = (this.rightEye.isValid() || this.rightEye == null) && isValid;
+        isValid = (this.leftEye.isValid() || this.leftEye == null) && isValid;
+
+        this.errors = validator.errors();
+
+        if (this.rightEye.errors().length() != 0) {
+            this.errors.put("right_eye", this.rightEye.errors());
+        }
+        if (this.leftEye.errors().length() != 0) {
+            this.errors.put("left_eye", this.leftEye.errors());
+        }
+
+        return isValid;
+    }
+
+    public JSONObject errors() {
+        return this.errors;
     }
 }

@@ -1,4 +1,4 @@
-package calc;
+package calc.eye.constantA;
 
 import org.json.JSONObject;
 
@@ -13,9 +13,9 @@ public class EyeConstantA {
     private String iolTypeStr;
     private int sifiType;
 
-    EyeConstantA() {}
+    public EyeConstantA() {}
 
-    EyeConstantA(String constantA, ConstantA type) {
+    public EyeConstantA(String constantA, ConstantA type) {
 
         switch (type) {
             case IOL_Type -> { create(constantA, type, "0", "IOL Type", 0); }

@@ -1,9 +1,12 @@
-package calc;
+package calc.eye;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Iterator;
 
+import calc.eye.constantA.EyeConstantA;
+import calc.eye.nontoric.EyeNonToric;
+import calc.eye.toric.EyeToric;
 import org.json.JSONObject;
 
 
@@ -15,16 +18,16 @@ public class Eye {
     private EyeToric eyeToric;
     private EyeNonToric eyeNonToric;
 
-    Eye() {}
+    public Eye() {}
 
-    Eye(EyeToric eyeToric, EyeConstantA constantA, Boolean isKeratoconus, String targetRefraction) {
+    public Eye(EyeToric eyeToric, EyeConstantA constantA, Boolean isKeratoconus, String targetRefraction) {
         this.eyeToric = eyeToric;
         this.constantA = constantA;
         this.targetRefraction = targetRefraction;
         this.isKeratoconus = isKeratoconus ? 1 : 0;
     }
 
-    Eye(EyeNonToric eyeNonToric, EyeConstantA constantA, Boolean isKeratoconus, String targetRefraction) {
+    public Eye(EyeNonToric eyeNonToric, EyeConstantA constantA, Boolean isKeratoconus, String targetRefraction) {
         this.eyeNonToric = eyeNonToric;
         this.constantA = constantA;
         this.targetRefraction = targetRefraction;

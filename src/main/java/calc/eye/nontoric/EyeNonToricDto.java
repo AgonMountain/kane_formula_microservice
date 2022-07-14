@@ -1,5 +1,7 @@
-package calc;
+package calc.eye.nontoric;
 
+
+import org.json.JSONObject;
 
 public class EyeNonToricDto {
 
@@ -10,13 +12,17 @@ public class EyeNonToricDto {
     private String lt;
     private String cct;
 
-    EyeNonToricDto(String al, String k1, String k2, String acd, String lt, String cct) {
+    private JSONObject errors;
+
+    public EyeNonToricDto(String al, String k1, String k2, String acd, String lt, String cct) {
         this.al = al;
         this.k1 = k1;
         this.k2 = k2;
         this.acd = acd;
         this.lt = lt;
         this.cct = cct;
+
+        this.errors = new JSONObject();
     }
 
     public String getAl() {
@@ -46,12 +52,19 @@ public class EyeNonToricDto {
     public boolean isValid() {
         EyeNonToricValidator validator = new EyeNonToricValidator();
 
-        return (validator.isAlValid(this.al) &&
-                validator.isK1Valid(this.k1) &&
-                validator.isK2Valid(this.k1, this.k2) &&
-                validator.isAcdValid(this.acd) &&
-                validator.isLtValid(this.lt) &&
-                validator.isCctValid(this.cct));
+        Boolean isValid = validator.isAlValid(this.al);
+        isValid = validator.isK1Valid(this.k1) && isValid;
+        isValid = validator.isK2Valid(this.k1, this.k2) && isValid;
+        isValid = validator.isAcdValid(this.acd) && isValid;
+        isValid = validator.isLtValid(this.lt) && isValid;
+        isValid = validator.isCctValid(this.cct) && isValid;
+
+        this.errors = validator.errors();
+
+        return isValid;
     }
 
+    public JSONObject errors() {
+        return this.errors;
+    }
 }

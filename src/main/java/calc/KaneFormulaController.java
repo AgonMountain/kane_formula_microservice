@@ -3,17 +3,21 @@ package calc;
 import java.io.IOException;
 import java.text.ParseException;
 
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class KaneFormulaController {
 
 
-    KaneFormulaController() { }
+    public KaneFormulaController() { }
 
     @PostMapping("/kane")
-    String kane(@RequestBody KaneFormulaDto newKaneFormulaDto) throws ParseException, IOException {
+    String kane(@RequestBody KaneFormulaDto newKaneFormulaDto, HttpServletResponse response) throws ParseException, IOException {
         if(newKaneFormulaDto.isValid()) {
+            response.setStatus(200);
             return new KaneFormula(newKaneFormulaDto.getSurgeonName(),
                     newKaneFormulaDto.getPatientName(),
                     newKaneFormulaDto.getPatientId(),
@@ -23,7 +27,8 @@ public class KaneFormulaController {
                     newKaneFormulaDto.getLeftEye()).getResult(); // return result of request
         }
         else {
-            return "Error input";
+            response.setStatus(418);
+            return new JSONObject().put("Errors", newKaneFormulaDto.errors()).toString();
         }
     }
 
