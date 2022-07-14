@@ -6,14 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class EyeDto {
 
 
-    private @JsonProperty("is_keratoconus") int isKeratoconus;
+    private @JsonProperty("is_keratoconus") String isKeratoconus;
     private @JsonProperty("target_refraction") String targetRefraction;
     private @JsonProperty("constant_a") EyeConstantADto constantA;
     private @JsonProperty("eye_toric") EyeToricDto eyeToric;
     private @JsonProperty("eye_nontoric") EyeNonToricDto eyeNonToric;
 
 
-    EyeDto(int isKeratoconus, String targetRefraction, EyeConstantADto constantA,
+    EyeDto(String isKeratoconus, String targetRefraction, EyeConstantADto constantA,
            EyeToricDto eyeToric, EyeNonToricDto eyeNonToric) {
 
         this.isKeratoconus = isKeratoconus;
@@ -24,7 +24,7 @@ public class EyeDto {
     }
 
     public boolean getIsKeratoconus() {
-        return (isKeratoconus == 1);
+        return this.isKeratoconus.equals("1");
     }
 
     public String getTargetRefraction() {
@@ -57,6 +57,15 @@ public class EyeDto {
                                             this.eyeNonToric.getAcd(),
                                             this.eyeNonToric.getLt(),
                                             this.eyeNonToric.getCct()) : null;
+    }
+
+    public boolean isValid() {
+        EyeValidator validator = new EyeValidator();
+
+        return validator.isTargetRefractionValid(this.targetRefraction) &&
+                (this.eyeToric == null || this.eyeToric.isValid()) &&
+                (this.eyeNonToric == null || this.eyeNonToric.isValid()) &&
+                this.constantA.isValid();
     }
 
 }

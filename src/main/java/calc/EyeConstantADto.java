@@ -39,4 +39,13 @@ public class EyeConstantADto {
         return null;
     }
 
+    public boolean isValid() {
+
+        if (this.constantA.equals("")) {
+            return this.getConstantType() != null;
+        }
+
+        return (110 <= Float.parseFloat(this.constantA) && Float.parseFloat(this.constantA) <= 125);
+    }
+
 }

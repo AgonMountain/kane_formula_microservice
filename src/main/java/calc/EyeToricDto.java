@@ -1,7 +1,5 @@
 package calc;
 
-import org.json.JSONObject;
-
 public class EyeToricDto {
 
     private String al;
@@ -69,6 +67,21 @@ public class EyeToricDto {
 
     public String getIncision() {
         return this.incision;
+    }
+
+    public boolean isValid() {
+        EyeToricValidator validator = new EyeToricValidator();
+
+        return (validator.isAlValid(this.al) &&
+                validator.isK1Valid(this.k1) &&
+                validator.isK2Valid(this.k1, this.k2) &&
+                validator.isAcdValid(this.acd) &&
+                validator.isLtValid(this.lt) &&
+                validator.isCctValid(this.cct) &&
+                validator.isIncisionValid(this.incision) &&
+                validator.isK1axisValid(this.k1) &&
+                validator.isSiaValid(this.sia));
+                //&& validator.isK2axisValid(this.k2)); // TODO check KaneFormulaValidator isK2axisValid()
     }
 
 }

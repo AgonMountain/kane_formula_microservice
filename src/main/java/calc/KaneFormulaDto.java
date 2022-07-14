@@ -74,4 +74,12 @@ public class KaneFormulaDto {
         return null;
     }
 
+
+    public boolean isValid() {
+        KaneFormulaValidator validator = new KaneFormulaValidator();
+
+        return (validator.isKindexValid(this.kIndex) &&
+                (this.rightEye == null || this.rightEye.isValid()) &&
+                (this.leftEye == null || this.leftEye.isValid()));
+    }
 }

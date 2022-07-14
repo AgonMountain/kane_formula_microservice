@@ -43,4 +43,15 @@ public class EyeNonToricDto {
         return this.cct;
     }
 
+    public boolean isValid() {
+        EyeNonToricValidator validator = new EyeNonToricValidator();
+
+        return (validator.isAlValid(this.al) &&
+                validator.isK1Valid(this.k1) &&
+                validator.isK2Valid(this.k1, this.k2) &&
+                validator.isAcdValid(this.acd) &&
+                validator.isLtValid(this.lt) &&
+                validator.isCctValid(this.cct));
+    }
+
 }

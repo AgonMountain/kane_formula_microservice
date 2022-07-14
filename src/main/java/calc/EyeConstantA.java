@@ -47,7 +47,7 @@ public class EyeConstantA {
         return constantA.equals("") ? constantADefaultValue(type) : constantA;
     }
 
-    private String constantADefaultValue(ConstantA type) {
+    static public String constantADefaultValue(ConstantA type) {
         switch (type) {
             case IOL_Type -> { return "110"; }
             case Alcon_SN60WF -> { return "118.98"; }

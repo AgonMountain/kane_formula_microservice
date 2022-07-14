@@ -13,13 +13,18 @@ public class KaneFormulaController {
 
     @PostMapping("/kane")
     String kane(@RequestBody KaneFormulaDto newKaneFormulaDto) throws ParseException, IOException {
-        return new KaneFormula(newKaneFormulaDto.getSurgeonName(),
-                                newKaneFormulaDto.getPatientName(),
-                                newKaneFormulaDto.getPatientId(),
-                                newKaneFormulaDto.getKIndex(),
-                                newKaneFormulaDto.getIsMale(),
-                                newKaneFormulaDto.getRightEye(),
-                                newKaneFormulaDto.getLeftEye()).getResult(); // return result of request
+        if(newKaneFormulaDto.isValid()) {
+            return new KaneFormula(newKaneFormulaDto.getSurgeonName(),
+                    newKaneFormulaDto.getPatientName(),
+                    newKaneFormulaDto.getPatientId(),
+                    newKaneFormulaDto.getKIndex(),
+                    newKaneFormulaDto.getIsMale(),
+                    newKaneFormulaDto.getRightEye(),
+                    newKaneFormulaDto.getLeftEye()).getResult(); // return result of request
+        }
+        else {
+            return "Error input";
+        }
     }
 
 }
