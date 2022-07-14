@@ -19,10 +19,11 @@ public class EyeValidator {
 
         if (!targetRefraction.equals("")) {
             isValid = (-6 <= Float.parseFloat(targetRefraction) && Float.parseFloat(targetRefraction) <= 2);
-        }
-
-        if (!isValid) {
             checkUpdateError(isValid, "target_refraction", targetRefraction, "[-6.0, 2.0]");
+        }
+        else {
+            isValid = false;
+            checkUpdateError(isValid, "target_refraction", "None", "[-6.0, 2.0]");
         }
 
         return isValid;

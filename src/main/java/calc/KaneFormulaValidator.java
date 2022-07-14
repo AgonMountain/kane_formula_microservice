@@ -19,7 +19,7 @@ public class KaneFormulaValidator {
                 kIndex.equals("1.332") ||
                 kIndex.equals("1.3315") ||
                 kIndex.equals("1.3360") ||
-                kIndex.equals("1.3380"));;
+                kIndex.equals("1.3380"));
 
         checkUpdateError(isValid, "k_index", kIndex, "{1.3375, 1.332, 1.3315, 1.3360, 1.3380}");
 

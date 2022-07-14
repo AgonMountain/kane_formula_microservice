@@ -21,12 +21,19 @@ public class EyeConstantAValidator {
             isValid = (110 <= Float.parseFloat(constantA) && Float.parseFloat(constantA) <= 125);
             checkUpdateError(isValid, "constant_a", constantA, "[110; 125]");
         }
-        else {
+        else if (!type.equals("")){
             isValid = isConstantTypeValid(type);
             checkUpdateError(isValid, "type", type,
                     "{IOL Type, Alcon SN60WF, Alcon SA60AT, Alcon MN60MA, AMO ZCB00, AMO AR40e" +
                             "Zeiss 409M, Alcon SN6ATx, Alcon SND1Tx, Alcon SV25Tx, J+J ZCTx, SIFI Mini Toric" +
                             "SIFI Mini WELL Toric, HumanOptics TORICA, Primus-HD Toric}");
+        }
+        else {
+            isValid = false;
+            checkUpdateError(isValid, "constant_a / type", "None", "[110; 125] or set Type" +
+                    "{IOL Type, Alcon SN60WF, Alcon SA60AT, Alcon MN60MA, AMO ZCB00, AMO AR40e," +
+                    "Zeiss 409M, Alcon SN6ATx, Alcon SND1Tx, Alcon SV25Tx, J+J ZCTx, SIFI Mini Toric," +
+                    "SIFI Mini WELL Toric, HumanOptics TORICA, Primus-HD Toric}");
         }
 
         return isValid;
