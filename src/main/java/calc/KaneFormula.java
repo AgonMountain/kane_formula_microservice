@@ -106,19 +106,26 @@ public class KaneFormula {
         JSONObject com = new JSONObject();
         com.put("is_valid", true);
         // ????
-        JSONObject rightEye = new JSONObject();
-        com.put("is_valid", true);
+        JSONObject eye1 = new JSONObject();
+        eye1.put("is_valid", true);
+        if(!this.rightEye.isToric()) {
+            eye1.put("k1_t_axis", 1);
+            eye1.put("sia", 1);
+            eye1.put("inc", 1);
+        }
         // ????
-        JSONObject leftEye = new JSONObject();
-        com.put("is_valid", true);
-        com.put("k1_t_axis", 1);
-        com.put("sia", 1);
-        com.put("inc", 1);
+        JSONObject eye2 = new JSONObject();
+        eye2.put("is_valid", true);
+        if(!this.leftEye.isToric()) {
+            eye2.put("k1_t_axis", 1);
+            eye2.put("sia", 1);
+            eye2.put("inc", 1);
+        }
         // ????
         JSONObject v = new JSONObject();
         v.put("com", com);
-        v.put("eye1", rightEye);
-        v.put("eye2", leftEye);
+        v.put("eye1", eye1);
+        v.put("eye2", eye2);
         // ????
         json.put("v", id3);
         // ????

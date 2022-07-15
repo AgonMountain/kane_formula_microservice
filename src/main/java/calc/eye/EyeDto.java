@@ -72,6 +72,7 @@ public class EyeDto {
 
     public boolean isValid() {
         EyeValidator validator = new EyeValidator();
+
         Boolean isValid = validator.isTargetRefractionValid(this.targetRefraction);
         isValid = (this.eyeToric == null || this.eyeToric.isValid()) && isValid;
         isValid = (this.eyeNonToric == null || this.eyeNonToric.isValid()) && isValid;
@@ -82,9 +83,16 @@ public class EyeDto {
         if (this.eyeNonToric != null && this.eyeNonToric.errors().length() != 0) {
             this.errors.put("eye", this.eyeNonToric.errors());
         }
+
         if (this.eyeToric != null && this.eyeToric.errors().length() != 0) {
             this.errors.put("eye", this.eyeToric.errors());
         }
+
+        // not set eye (toric / nontoric)
+        if (this.eyeToric == null && this.eyeNonToric == null) {
+            this.errors.put("eye", "None");
+        }
+
         if (this.constantA.errors().length() != 0) {
             this.errors.put("constant_a", this.constantA.errors());
         }

@@ -12,14 +12,13 @@ public class EyeToricDto {
     private String lt;
     private String cct;
     private String k1_axis;
-    private String k2_axis;
     private String sia;
     private String incision;
 
     private JSONObject errors;
 
     public EyeToricDto(String al, String k1, String k2, String acd,
-                String lt, String cct, String k1_axis, String k2_axis,
+                String lt, String cct, String k1_axis,
                 String sia, String incision) {
         
         this.al = al;
@@ -29,7 +28,6 @@ public class EyeToricDto {
         this.lt = lt;
         this.cct = cct;
         this.k1_axis = k1_axis;
-        this.k2_axis = k2_axis;
         this.sia = sia;
         this.incision = incision;
 
@@ -65,7 +63,9 @@ public class EyeToricDto {
     }
 
     public String getK2axis() {
-        return this.k2_axis;
+        return (Integer.parseInt(k1_axis) + 90 > 180) ?
+                Integer.toString(Integer.parseInt(k1_axis) - 90) :
+                Integer.toString(Integer.parseInt(k1_axis) + 90);
     }
 
     public String getSia() {

@@ -61,4 +61,8 @@ public class Eye {
         return newJson;
     }
 
+    public boolean isToric() {
+        return (this.eyeToric != null);
+    }
+
 }
