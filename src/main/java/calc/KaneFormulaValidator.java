@@ -79,6 +79,23 @@ public class KaneFormulaValidator {
         return isValid;
     }
 
+    public boolean isEyesValid(EyeDto rightEye, EyeDto leftEye) {
+        boolean isValid = true;
+
+        if (leftEye == null && rightEye == null) {
+            this.errorLog.put("right_eye", "Null");
+            this.errorMessageRu.put("right_eye", "Параметр \"right_eye\" не был получен.");
+
+            this.errorLog.put("left_eye", "Null");
+            this.errorMessageRu.put("left_eye", "Параметр \"left_eye\" не был получен.");
+
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+
     private void updateErrorLog(String varName, String value, String correctValues) {
         this.errorLog.put(varName, value + " != " + correctValues);
     }

@@ -87,7 +87,7 @@ public class KaneFormulaDto {
         Boolean isValid = this.validator.isKindexValid(this.kIndex);
         isValid = this.validator.isLeftEyeValid(this.leftEye) && isValid;
         isValid = this.validator.isRightEyeValid(this.rightEye) && isValid;
-        isValid = (this.leftEye != null || this.rightEye != null) && isValid;   // one of eye must be not null
+        isValid = this.validator.isEyesValid(this.rightEye, this.leftEye) && isValid;   // one of eye must be not null
 
         return isValid;
     }

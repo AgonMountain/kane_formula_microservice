@@ -21,7 +21,7 @@ public class ConstantADto {
     }
 
     public String getValue() {
-        return this.value;
+        return this.value == null ? "" : this.value;
     }
 
     public ConstantAType getConstantType() {

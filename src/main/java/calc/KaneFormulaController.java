@@ -25,7 +25,10 @@ public class KaneFormulaController {
         }
         else {
             response.setStatus(400);
-            return new JSONObject().put("Errors", newKaneFormulaDto.errorMessagesRu()).toString();
+            JSONObject json = new JSONObject();
+            json.put("ErrorLogs", newKaneFormulaDto.errorLogs());
+            json.put("ErrorMessagesRu", newKaneFormulaDto.errorMessagesRu());
+            return json.toString();
         }
     }
 

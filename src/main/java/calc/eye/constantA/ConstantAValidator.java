@@ -44,7 +44,7 @@ public class ConstantAValidator {
             if (!isValid) {
                 updateErrorLog("value", value, "[110.0; 125.0]");
                 updateErrorMessageRu("value",
-                        "Значение параметра должно быть в диапазоне от 110.0 до 125.0 включительно");
+                        "задан некорректно. Значение параметра должно быть в диапазоне от 110.0 до 125.0 включительно");
             }
         }
         else if (type != null && !type.equals("")) {
@@ -54,8 +54,8 @@ public class ConstantAValidator {
                         "IOL Type, Alcon SN60WF, Alcon SA60AT, Alcon MN60MA, AMO ZCB00, AMO AR40e," +
                         " Zeiss 409M, Alcon SN6ATx, Alcon SND1Tx, Alcon SV25Tx, J+J ZCTx, SIFI Mini Toric," +
                         " SIFI Mini WELL Toric, HumanOptics TORICA, Primus-HD Toric");
-                updateErrorMessageRu("constant_type",
-                        "Значение параметра должно быть одним из следующего списка:" +
+                updateErrorMessageRu("type",
+                        "задан некорректно. Значение параметра должно быть одним из следующего списка:" +
                                 " IOL Type, Alcon SN60WF, Alcon SA60AT, Alcon MN60MA, AMO ZCB00, AMO AR40e," +
                                 " Zeiss 409M, Alcon SN6ATx, Alcon SND1Tx, Alcon SV25Tx, J+J ZCTx, SIFI Mini Toricn," +
                                 " SIFI Mini WELL Toric, HumanOptics TORICA, Primus-HD Toric");
