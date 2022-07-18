@@ -108,7 +108,7 @@ public class KaneFormula {
         // ????
         JSONObject eye1 = new JSONObject();
         eye1.put("is_valid", true);
-        if(!this.rightEye.isToric()) {
+        if(this.rightEye != null && !this.rightEye.isToric()) {
             eye1.put("k1_t_axis", 1);
             eye1.put("sia", 1);
             eye1.put("inc", 1);
@@ -116,7 +116,7 @@ public class KaneFormula {
         // ????
         JSONObject eye2 = new JSONObject();
         eye2.put("is_valid", true);
-        if(!this.leftEye.isToric()) {
+        if(this.leftEye != null && !this.leftEye.isToric()) {
             eye2.put("k1_t_axis", 1);
             eye2.put("sia", 1);
             eye2.put("inc", 1);

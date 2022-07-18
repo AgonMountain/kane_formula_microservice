@@ -58,7 +58,7 @@ public class KaneFormulaValidator {
     public boolean isLeftEyeValid(EyeDto leftEye) {
         boolean isValid = true;
 
-        if (leftEye.errorLogs().length() != 0) {
+        if (leftEye != null && !leftEye.isValid()) {
             this.errorLog.put("left_eye", leftEye.errorLogs());
             this.errorMessageRu.put("left_eye", leftEye.errorMessagesRu());
             isValid = false;
@@ -70,7 +70,7 @@ public class KaneFormulaValidator {
     public boolean isRightEyeValid(EyeDto rightEye) {
         boolean isValid = true;
 
-        if (rightEye.errorLogs().length() != 0) {
+        if (rightEye != null && !rightEye.isValid()) {
             this.errorLog.put("right_eye", rightEye.errorLogs());
             this.errorMessageRu.put("right_eye", rightEye.errorMessagesRu());
             isValid = false;

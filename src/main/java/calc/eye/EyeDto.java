@@ -2,6 +2,7 @@ package calc.eye;
 
 import calc.eye.constantA.ConstantA;
 import calc.eye.constantA.ConstantADto;
+import calc.eye.constantA.ConstantAType;
 import calc.eye.nontoric.EyeNonToric;
 import calc.eye.nontoric.EyeNonToricDto;
 import calc.eye.toric.EyeToric;
@@ -42,7 +43,7 @@ public class EyeDto {
     }
 
     public ConstantA getConstantA() {
-        return new ConstantA(this.constantA.getValue(), this.constantA.getConstantType());
+        return new ConstantA(this.constantA.getValue(), this.constantA.getConstantType() == null ? ConstantAType.IOL_Type : this.constantA.getConstantType());
     }
 
     public EyeToric getEyeToric() {

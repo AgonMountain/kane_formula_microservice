@@ -27,32 +27,38 @@ public class ConstantAValidator {
         boolean isValid = false;
 
         if (value == null && type == null) {
-            updateErrorLog("constant_value","Null","[110.0; 125.0]");
-            updateErrorMessageRu("constant_value",
+            updateErrorLog("value","Null","[110.0; 125.0]");
+            updateErrorMessageRu("value",
                     "не был получен. Значение параметра должно быть в диапазоне от 110.0 до 125.0 включительно." +
                             " Или укажите тип константы и будет применено значение константы по умолчанию для данного типа.");
         }
-        else if (!value.equals("")) {
+        else if (value != null && value.equals("") && type == null) {
+            updateErrorLog("value","None","[110.0; 125.0]");
+            updateErrorMessageRu("value",
+                    "не содержит значение. Значение параметра должно быть в диапазоне от 110.0 до 125.0 включительно." +
+                            " Или укажите тип константы и будет применено значение константы по умолчанию для данного типа.");
+        }
+        else if (value != null && !value.equals("")) {
             isValid = (110 <= Float.parseFloat(value) && Float.parseFloat(value) <= 125);
 
             if (!isValid) {
-                updateErrorLog("constant_value", value, "[110.0; 125.0]");
-                updateErrorMessageRu("constant_value",
+                updateErrorLog("value", value, "[110.0; 125.0]");
+                updateErrorMessageRu("value",
                         "Значение параметра должно быть в диапазоне от 110.0 до 125.0 включительно");
             }
         }
-        else if (!type.equals("")) {
+        else if (type != null && !type.equals("")) {
             isValid = isConstantTypeValid(type);
             if (!isValid) {
-                updateErrorLog("constant_type","Null",
-                        "{IOL Type, Alcon SN60WF, Alcon SA60AT, Alcon MN60MA, AMO ZCB00, AMO AR40e" +
-                        "Zeiss 409M, Alcon SN6ATx, Alcon SND1Tx, Alcon SV25Tx, J+J ZCTx, SIFI Mini Toric" +
-                        "SIFI Mini WELL Toric, HumanOptics TORICA, Primus-HD Toric}");
+                updateErrorLog("type","None",
+                        "IOL Type, Alcon SN60WF, Alcon SA60AT, Alcon MN60MA, AMO ZCB00, AMO AR40e," +
+                        " Zeiss 409M, Alcon SN6ATx, Alcon SND1Tx, Alcon SV25Tx, J+J ZCTx, SIFI Mini Toric," +
+                        " SIFI Mini WELL Toric, HumanOptics TORICA, Primus-HD Toric");
                 updateErrorMessageRu("constant_type",
                         "Значение параметра должно быть одним из следующего списка:" +
-                                " {IOL Type, Alcon SN60WF, Alcon SA60AT, Alcon MN60MA, AMO ZCB00, AMO AR40e" +
-                                " Zeiss 409M, Alcon SN6ATx, Alcon SND1Tx, Alcon SV25Tx, J+J ZCTx, SIFI Mini Toricn" +
-                                " SIFI Mini WELL Toric, HumanOptics TORICA, Primus-HD Toric}");
+                                " IOL Type, Alcon SN60WF, Alcon SA60AT, Alcon MN60MA, AMO ZCB00, AMO AR40e," +
+                                " Zeiss 409M, Alcon SN6ATx, Alcon SND1Tx, Alcon SV25Tx, J+J ZCTx, SIFI Mini Toricn," +
+                                " SIFI Mini WELL Toric, HumanOptics TORICA, Primus-HD Toric");
             }
         }
 

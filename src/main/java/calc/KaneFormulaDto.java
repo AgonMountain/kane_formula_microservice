@@ -58,7 +58,7 @@ public class KaneFormulaDto {
         if (this.rightEye != null) {
             if (this.rightEye.getEyeToric() != null) {
                 return new Eye(this.rightEye.getEyeToric(), this.rightEye.getConstantA(),
-                        this.rightEye.getIsKeratoconus(), this.rightEye.getTargetRefraction());
+                                this.rightEye.getIsKeratoconus(), this.rightEye.getTargetRefraction());
             }
             else {
                 return new Eye(this.rightEye.getEyeNonToric(), this.rightEye.getConstantA(),
@@ -73,11 +73,11 @@ public class KaneFormulaDto {
         if (this.leftEye != null) {
             if (this.leftEye.getEyeToric() != null) {
                 return new Eye(this.leftEye.getEyeToric(), this.leftEye.getConstantA(),
-                        this.leftEye.getIsKeratoconus(), this.leftEye.getTargetRefraction());
+                                this.leftEye.getIsKeratoconus(), this.leftEye.getTargetRefraction());
             }
             else {
                 return new Eye(this.leftEye.getEyeNonToric(), this.leftEye.getConstantA(),
-                        this.leftEye.getIsKeratoconus(), this.leftEye.getTargetRefraction());
+                                this.leftEye.getIsKeratoconus(), this.leftEye.getTargetRefraction());
             }
         }
         return null;
@@ -85,10 +85,9 @@ public class KaneFormulaDto {
 
     public boolean isValid() {
         Boolean isValid = this.validator.isKindexValid(this.kIndex);
-        isValid = (this.rightEye.isValid() || this.rightEye == null) && isValid;
-        isValid = (this.leftEye.isValid() || this.leftEye == null) && isValid;
         isValid = this.validator.isLeftEyeValid(this.leftEye) && isValid;
         isValid = this.validator.isRightEyeValid(this.rightEye) && isValid;
+        isValid = (this.leftEye != null || this.rightEye != null) && isValid;   // one of eye must be not null
 
         return isValid;
     }

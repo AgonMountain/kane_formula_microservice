@@ -52,7 +52,7 @@ public class EyeValidator {
     public boolean isNontoricEyeValid(EyeNonToricDto eyeNonToric) {
         boolean isValid = true;
 
-        if (eyeNonToric != null && eyeNonToric.errorLogs().length() != 0) {
+        if (eyeNonToric != null && !eyeNonToric.isValid()) {
             this.errorLog.put("eye", eyeNonToric.errorLogs());
             this.errorMessageRu.put("eye", eyeNonToric.errorMessagesRu());
             isValid = false;
@@ -64,7 +64,7 @@ public class EyeValidator {
     public boolean isToricEyeValid(EyeToricDto eyeToric) {
         boolean isValid = true;
 
-        if (eyeToric != null && eyeToric.errorLogs().length() != 0) {
+        if (eyeToric != null && !eyeToric.isValid()) {
             this.errorLog.put("eye", eyeToric.errorLogs());
             this.errorMessageRu.put("eye", eyeToric.errorMessagesRu());
             isValid = false;
@@ -79,7 +79,7 @@ public class EyeValidator {
         // not set eye (toric / nontoric)
         if (eyeToric == null && eyeNonToric == null) {
             this.errorLog.put("eye", "Null");
-            this.errorMessageRu.put("eye", "");
+            this.errorMessageRu.put("eye", "Параметр не был задан.");
             isValid = false;
         }
 
