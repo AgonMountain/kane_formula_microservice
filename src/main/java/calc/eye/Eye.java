@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Iterator;
 
-import calc.eye.constantA.EyeConstantA;
+import calc.eye.constantA.ConstantA;
 import calc.eye.nontoric.EyeNonToric;
 import calc.eye.toric.EyeToric;
 import org.json.JSONObject;
@@ -14,20 +14,20 @@ public class Eye {
 
     private int isKeratoconus;
     private String targetRefraction;
-    private EyeConstantA constantA;
+    private ConstantA constantA;
     private EyeToric eyeToric;
     private EyeNonToric eyeNonToric;
 
     public Eye() {}
 
-    public Eye(EyeToric eyeToric, EyeConstantA constantA, Boolean isKeratoconus, String targetRefraction) {
+    public Eye(EyeToric eyeToric, ConstantA constantA, Boolean isKeratoconus, String targetRefraction) {
         this.eyeToric = eyeToric;
         this.constantA = constantA;
         this.targetRefraction = targetRefraction;
         this.isKeratoconus = isKeratoconus ? 1 : 0;
     }
 
-    public Eye(EyeNonToric eyeNonToric, EyeConstantA constantA, Boolean isKeratoconus, String targetRefraction) {
+    public Eye(EyeNonToric eyeNonToric, ConstantA constantA, Boolean isKeratoconus, String targetRefraction) {
         this.eyeNonToric = eyeNonToric;
         this.constantA = constantA;
         this.targetRefraction = targetRefraction;

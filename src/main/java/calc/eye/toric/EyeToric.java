@@ -19,7 +19,8 @@ public class EyeToric {
     private String sia;
     private String incision;
 
-    public EyeToric() {}
+
+
 
     public EyeToric(String al, String k1, String k1_axis, String k2, String k2_axis,
              String acd, String lt, String cct, String incision, String sia) {

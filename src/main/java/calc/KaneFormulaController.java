@@ -11,23 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class KaneFormulaController {
 
-    public KaneFormulaController() { }
-
-    @PostMapping("/kane")
+    @GetMapping("/kane")
     String kane(@RequestBody KaneFormulaDto newKaneFormulaDto, HttpServletResponse response) throws ParseException, IOException {
         if(newKaneFormulaDto.isValid()) {
-            response.setStatus(200);    // http status IS_OK
+            response.setStatus(200);
             return new KaneFormula(newKaneFormulaDto.getSurgeonName(),
-                    newKaneFormulaDto.getPatientName(),
-                    newKaneFormulaDto.getPatientId(),
-                    newKaneFormulaDto.getKIndex(),
-                    newKaneFormulaDto.getIsMale(),
-                    newKaneFormulaDto.getRightEye(),
-                    newKaneFormulaDto.getLeftEye()).getResult(); // return result of request
+                                    newKaneFormulaDto.getPatientName(),
+                                    newKaneFormulaDto.getPatientId(),
+                                    newKaneFormulaDto.getKIndex(),
+                                    newKaneFormulaDto.getIsMale(),
+                                    newKaneFormulaDto.getRightEye(),
+                                    newKaneFormulaDto.getLeftEye()).getResult();
         }
         else {
-            response.setStatus(418); // http status IM_TEA_POT
-            return new JSONObject().put("Errors", newKaneFormulaDto.errors()).toString();
+            response.setStatus(400);
+            return new JSONObject().put("Errors", newKaneFormulaDto.errorMessagesRu()).toString();
         }
     }
 

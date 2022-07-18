@@ -1,9 +1,7 @@
 package calc.eye;
 
-import calc.eye.constantA.*;
-
-import calc.eye.constantA.EyeConstantA;
-import calc.eye.constantA.EyeConstantADto;
+import calc.eye.constantA.ConstantA;
+import calc.eye.constantA.ConstantADto;
 import calc.eye.nontoric.EyeNonToric;
 import calc.eye.nontoric.EyeNonToricDto;
 import calc.eye.toric.EyeToric;
@@ -13,16 +11,17 @@ import org.json.JSONObject;
 
 public class EyeDto {
 
-
     private @JsonProperty("is_keratoconus") Boolean isKeratoconus;
     private @JsonProperty("target_refraction") String targetRefraction;
-    private @JsonProperty("constant_a") EyeConstantADto constantA;
+    private @JsonProperty("constant_a") ConstantADto constantA;
     private @JsonProperty("eye_toric") EyeToricDto eyeToric;
     private @JsonProperty("eye_nontoric") EyeNonToricDto eyeNonToric;
+    private EyeValidator validator;
 
-    private JSONObject errors;
 
-    public EyeDto(Boolean isKeratoconus, String targetRefraction, EyeConstantADto constantA,
+
+
+    public EyeDto(Boolean isKeratoconus, String targetRefraction, ConstantADto constantA,
            EyeToricDto eyeToric, EyeNonToricDto eyeNonToric) {
 
         this.isKeratoconus = isKeratoconus;
@@ -31,7 +30,7 @@ public class EyeDto {
         this.eyeToric = eyeToric;
         this.eyeNonToric = eyeNonToric;
 
-        this.errors = new JSONObject();
+        this.validator = new EyeValidator();
     }
 
     public boolean getIsKeratoconus() {
@@ -42,8 +41,8 @@ public class EyeDto {
         return this.targetRefraction;
     }
 
-    public EyeConstantA getConstantA() {
-        return new EyeConstantA(this.constantA.getConstantA(), this.constantA.getConstantType());
+    public ConstantA getConstantA() {
+        return new ConstantA(this.constantA.getValue(), this.constantA.getConstantType());
     }
 
     public EyeToric getEyeToric() {
@@ -71,37 +70,25 @@ public class EyeDto {
     }
 
     public boolean isValid() {
-        EyeValidator validator = new EyeValidator();
 
-        Boolean isValid = validator.isTargetRefractionValid(this.targetRefraction);
+        Boolean isValid = this.validator.isTargetRefractionValid(this.targetRefraction);
         isValid = (this.eyeToric == null || this.eyeToric.isValid()) && isValid;
         isValid = (this.eyeNonToric == null || this.eyeNonToric.isValid()) && isValid;
         isValid = this.constantA.isValid() && isValid;
-
-        this.errors = validator.errors();
-
-        if (this.eyeNonToric != null && this.eyeNonToric.errors().length() != 0) {
-            this.errors.put("eye", this.eyeNonToric.errors());
-        }
-
-        if (this.eyeToric != null && this.eyeToric.errors().length() != 0) {
-            this.errors.put("eye", this.eyeToric.errors());
-        }
-
-        // not set eye (toric / nontoric)
-        if (this.eyeToric == null && this.eyeNonToric == null) {
-            this.errors.put("eye", "None");
-        }
-
-        if (this.constantA.errors().length() != 0) {
-            this.errors.put("constant_a", this.constantA.errors());
-        }
+        isValid = this.validator.isToricEyeValid(this.eyeToric) && isValid;
+        isValid = this.validator.isNontoricEyeValid(this.eyeNonToric) && isValid;
+        isValid = this.validator.isEyeValid(this.eyeToric, this.eyeNonToric) && isValid;
+        isValid = this.validator.isConstantAValid(this.constantA) && isValid;
 
         return isValid;
     }
 
-    public JSONObject errors() {
-        return this.errors;
+    public JSONObject errorLogs() {
+        return this.validator.getErrorLog();
+    }
+
+    public JSONObject errorMessagesRu() {
+        return this.validator.getErrorMessageRu();
     }
 
 }

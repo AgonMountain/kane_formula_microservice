@@ -14,8 +14,10 @@ public class EyeToricDto {
     private String k1_axis;
     private String sia;
     private String incision;
+    private EyeToricValidator validator;
 
-    private JSONObject errors;
+
+
 
     public EyeToricDto(String al, String k1, String k2, String acd,
                 String lt, String cct, String k1_axis,
@@ -31,7 +33,7 @@ public class EyeToricDto {
         this.sia = sia;
         this.incision = incision;
 
-        this.errors = new JSONObject();
+        this.validator = new EyeToricValidator();
     }
 
     public String getAl() {
@@ -77,27 +79,25 @@ public class EyeToricDto {
     }
 
     public boolean isValid() {
-        EyeToricValidator validator = new EyeToricValidator();
-
-        Boolean isValid = validator.isAlValid(this.al);
-        isValid = validator.isK1Valid(this.k1) && isValid;
-        isValid = validator.isK2Valid(this.k1, this.k2) && isValid;
-        isValid = validator.isAcdValid(this.acd) && isValid;
-        isValid = validator.isLtValid(this.lt) && isValid;
-        isValid = validator.isCctValid(this.cct) && isValid;
-        isValid = validator.isIncisionValid(this.incision) && isValid;
-        isValid = validator.isK1axisValid(this.k1) && isValid;
-        isValid = validator.isSiaValid(this.sia) && isValid;
-
-        //&& validator.isK2axisValid(this.k2)); // TODO check KaneFormulaValidator isK2axisValid()
-
-        this.errors = validator.errors();
+        Boolean isValid = this.validator.isAlValid(this.al);
+        isValid = this.validator.isK1Valid(this.k1) && isValid;
+        isValid = this.validator.isK2Valid(this.k1, this.k2) && isValid;
+        isValid = this.validator.isAcdValid(this.acd) && isValid;
+        isValid = this.validator.isLtValid(this.lt) && isValid;
+        isValid = this.validator.isCctValid(this.cct) && isValid;
+        isValid = this.validator.isIncisionValid(this.incision) && isValid;
+        isValid = this.validator.isK1axisValid(this.k1) && isValid;
+        isValid = this.validator.isSiaValid(this.sia) && isValid;
 
         return isValid;
     }
 
-    public JSONObject errors() {
-        return this.errors;
+    public JSONObject errorLogs() {
+        return this.validator.getErrorLog();
+    }
+
+    public JSONObject errorMessagesRu() {
+        return this.validator.getErrorMessageRu();
     }
 
 }

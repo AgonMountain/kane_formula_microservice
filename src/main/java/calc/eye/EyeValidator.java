@@ -1,39 +1,109 @@
 package calc.eye;
 
+import calc.eye.constantA.ConstantADto;
+import calc.eye.nontoric.EyeNonToricDto;
+import calc.eye.toric.EyeToricDto;
 import org.json.JSONObject;
 
 public class EyeValidator {
 
-    private JSONObject errors;
+    private JSONObject errorLog;
+    private JSONObject errorMessageRu;
 
     public EyeValidator() {
-        this.errors = new JSONObject();
+        this.errorLog = new JSONObject();
+        this.errorMessageRu = new JSONObject();
     }
 
-    public JSONObject errors() {
-        return this.errors;
+    public JSONObject getErrorLog() {
+        return this.errorLog;
+    }
+
+    public JSONObject getErrorMessageRu() {
+        return this.errorMessageRu;
     }
 
     public boolean isTargetRefractionValid(String targetRefraction) {
-        boolean isValid = true;
+        boolean isValid = false;
 
-        if (!targetRefraction.equals("")) {
-            isValid = (-6 <= Float.parseFloat(targetRefraction) && Float.parseFloat(targetRefraction) <= 2);
-            checkUpdateError(isValid, "target_refraction", targetRefraction, "[-6.0, 2.0]");
+        if (targetRefraction == null) {
+            updateErrorLog("target_refraction","Null","[-6.0, 2.0]");
+            updateErrorMessageRu("target_refraction",
+                    "не был получен. Значение параметра должно быть в диапазоне от -6.0 до 2.0 включительно");
+        }
+        else if (targetRefraction.equals("")) {
+            updateErrorLog("target_refraction", "None", "[-6.0, 2.0]");
+            updateErrorMessageRu("target_refraction",
+                    "не содержит значение. Значение параметра должно быть в диапазоне от -6.0 до 2.0 включительно");
         }
         else {
-            isValid = false;
-            checkUpdateError(isValid, "target_refraction", "None", "[-6.0, 2.0]");
+            isValid = (-6 <= Float.parseFloat(targetRefraction) && Float.parseFloat(targetRefraction) <= 2);
+
+            if(!isValid) {
+                updateErrorLog("target_refraction", targetRefraction, "[-6.0, 2.0]");
+                updateErrorMessageRu("target_refraction",
+                        "задан некорректно. Значение параметра должно быть в диапазоне от -6.0 до 2.0 включительно");
+            }
         }
 
         return isValid;
     }
 
-    private void checkUpdateError(Boolean isValid,
-                                  String varName, String value, String correctValues) {
-        if (!isValid) {
-            this.errors.put(varName, value + " != " + correctValues);
+    public boolean isNontoricEyeValid(EyeNonToricDto eyeNonToric) {
+        boolean isValid = true;
+
+        if (eyeNonToric != null && eyeNonToric.errorLogs().length() != 0) {
+            this.errorLog.put("eye", eyeNonToric.errorLogs());
+            this.errorMessageRu.put("eye", eyeNonToric.errorMessagesRu());
+            isValid = false;
         }
+
+        return isValid;
+    }
+
+    public boolean isToricEyeValid(EyeToricDto eyeToric) {
+        boolean isValid = true;
+
+        if (eyeToric != null && eyeToric.errorLogs().length() != 0) {
+            this.errorLog.put("eye", eyeToric.errorLogs());
+            this.errorMessageRu.put("eye", eyeToric.errorMessagesRu());
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    public boolean isEyeValid(EyeToricDto eyeToric, EyeNonToricDto eyeNonToric) {
+        boolean isValid = true;
+
+        // not set eye (toric / nontoric)
+        if (eyeToric == null && eyeNonToric == null) {
+            this.errorLog.put("eye", "Null");
+            this.errorMessageRu.put("eye", "");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    public boolean isConstantAValid(ConstantADto constantA) {
+        boolean isValid = true;
+
+        if (constantA.errorLogs().length() != 0) {
+            this.errorLog.put("constant_a", constantA.errorLogs());
+            this.errorMessageRu.put("constant_a", constantA.errorMessagesRu());
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private void updateErrorLog(String varName, String value, String correctValues) {
+        this.errorLog.put(varName, value + " != " + correctValues);
+    }
+
+    private void updateErrorMessageRu(String varName, String messageRu) {
+        this.errorMessageRu.put(varName, "Параметр \"" + varName + "\" " + messageRu);
     }
 
 }

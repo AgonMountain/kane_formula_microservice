@@ -16,7 +16,8 @@ public class EyeNonToric {
     private String lt;
     private String cct;
 
-    public EyeNonToric() {}
+
+
 
     public EyeNonToric(String al, String k1, String k2, String acd, String lt, String cct) {
         this.al = al;

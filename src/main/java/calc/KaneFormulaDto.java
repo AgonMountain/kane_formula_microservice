@@ -15,8 +15,10 @@ public class KaneFormulaDto {
     private @JsonProperty("is_male") Boolean isMale;
     private @JsonProperty("right_eye") EyeDto rightEye;
     private @JsonProperty("left_eye") EyeDto leftEye;
+    private KaneFormulaValidator validator;
 
-    private JSONObject errors;
+
+
 
     public KaneFormulaDto(String surgeonName, String patientName, String patientId,
                    String kIndex, Boolean isMale, EyeDto rightEye, EyeDto leftEye) {
@@ -28,7 +30,7 @@ public class KaneFormulaDto {
         this.rightEye = rightEye;
         this.leftEye = leftEye;
 
-        this.errors = new JSONObject();
+        this.validator = new KaneFormulaValidator();
     }
 
     public String getSurgeonName() {
@@ -81,27 +83,22 @@ public class KaneFormulaDto {
         return null;
     }
 
-
     public boolean isValid() {
-        KaneFormulaValidator validator = new KaneFormulaValidator();
-
-        Boolean isValid = validator.isKindexValid(this.kIndex);
+        Boolean isValid = this.validator.isKindexValid(this.kIndex);
         isValid = (this.rightEye.isValid() || this.rightEye == null) && isValid;
         isValid = (this.leftEye.isValid() || this.leftEye == null) && isValid;
-
-        this.errors = validator.errors();
-
-        if (this.rightEye.errors().length() != 0) {
-            this.errors.put("right_eye", this.rightEye.errors());
-        }
-        if (this.leftEye.errors().length() != 0) {
-            this.errors.put("left_eye", this.leftEye.errors());
-        }
+        isValid = this.validator.isLeftEyeValid(this.leftEye) && isValid;
+        isValid = this.validator.isRightEyeValid(this.rightEye) && isValid;
 
         return isValid;
     }
 
-    public JSONObject errors() {
-        return this.errors;
+    public JSONObject errorLogs() {
+        return this.validator.getErrorLog();
     }
+
+    public JSONObject errorMessagesRu() {
+        return this.validator.getErrorMessageRu();
+    }
+
 }
