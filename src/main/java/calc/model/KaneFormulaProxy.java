@@ -1,6 +1,5 @@
-package calc.view;
+package calc.model;
 
-import calc.model.KaneFormula;
 import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -11,17 +10,15 @@ import java.text.ParseException;
 import java.util.Collections;
 
 
-public class KaneFormulaView {
+public class KaneFormulaProxy {
 
-    private KaneFormula kane;
+    private String url;
 
-
-    public KaneFormulaView(KaneFormula kane) {
-        this.kane = kane;
+    public KaneFormulaProxy() {
+        url = "https://www.iolformula.com/api/";
     }
 
-    public String request() throws ParseException, IOException {
-        String url = "https://www.iolformula.com/api/";
+    public String request(KaneFormula kane) throws ParseException, IOException {
 
         // head
         HttpHeaders headers = new HttpHeaders();
@@ -32,10 +29,10 @@ public class KaneFormulaView {
         MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
         map.add("action", "kfapi");
         map.add("__xr", "1");
-        map.add("z", this.createKaneFormulaRequestBody().toString());
+        map.add("z", this.createKaneFormulaRequestBody(kane).toString());
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-        ResponseEntity<String> response = new RestTemplate().postForEntity( url, request , String.class );
+        ResponseEntity<String> response = new RestTemplate().postForEntity(this.url, request , String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
@@ -43,21 +40,21 @@ public class KaneFormulaView {
         }
     }
 
-    private JSONObject createKaneFormulaRequestBody() throws ParseException, IOException {
+    private JSONObject createKaneFormulaRequestBody(KaneFormula kane) throws ParseException, IOException {
         JSONObject json = new JSONObject();
 
-        json.put("surgeon_name", this.kane.getSurgeonName());
-        json.put("patient_name", this.kane.getPatientName());
-        json.put("id", this.kane.getPatientId());
-        json.put("kindex", this.kane.getKIndex());
-        json.put("is_male", this.kane.isMale() ? 1 : 0);
-        json.put("is_female", this.kane.isMale() ? 0 : 1);
+        json.put("surgeon_name", kane.getSurgeonName());
+        json.put("patient_name", kane.getPatientName());
+        json.put("id", kane.getPatientId());
+        json.put("kindex", kane.getKIndex());
+        json.put("is_male", kane.isMale() ? 1 : 0);
+        json.put("is_female", kane.isMale() ? 0 : 1);
 
-        if(this.kane.getRightEye() != null) {
-            json.put("eye1", this.kane.getRightEye().toJson());
+        if(kane.getRightEye() != null) {
+            json.put("eye1", kane.getRightEye().toJson());
         }
-        if(this.kane.getLeftEye() != null) {
-            json.put("eye2", this.kane.getLeftEye().toJson());
+        if(kane.getLeftEye() != null) {
+            json.put("eye2", kane.getLeftEye().toJson());
         }
 
         // ???? TODO
@@ -72,7 +69,7 @@ public class KaneFormulaView {
         // ???? TODO
         JSONObject eye1 = new JSONObject();
         eye1.put("is_valid", true);
-        if(this.kane.getRightEye() != null && !this.kane.getRightEye().isToric()) {
+        if(kane.getRightEye() != null && !kane.getRightEye().isToric()) {
             eye1.put("k1_t_axis", 1);
             eye1.put("sia", 1);
             eye1.put("inc", 1);
@@ -80,7 +77,7 @@ public class KaneFormulaView {
         // ???? TODO
         JSONObject eye2 = new JSONObject();
         eye2.put("is_valid", true);
-        if(this.kane.getLeftEye() != null && !this.kane.getLeftEye().isToric()) {
+        if(kane.getLeftEye() != null && !kane.getLeftEye().isToric()) {
             eye2.put("k1_t_axis", 1);
             eye2.put("sia", 1);
             eye2.put("inc", 1);

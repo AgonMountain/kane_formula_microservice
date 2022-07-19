@@ -5,7 +5,7 @@ import java.text.ParseException;
 
 import calc.model.KaneFormula;
 import calc.model.dto.KaneFormulaDto;
-import calc.view.KaneFormulaView;
+import calc.model.KaneFormulaProxy;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,7 @@ public class KaneFormulaController {
                                                 newKaneFormulaDto.getIsMale(),
                                                 newKaneFormulaDto.getRightEye(),
                                                 newKaneFormulaDto.getLeftEye());
-            return new KaneFormulaView(kane).request();
+            return new KaneFormulaProxy().request(kane);
         }
         else {
             response.setStatus(400);    // http IS_BAD
