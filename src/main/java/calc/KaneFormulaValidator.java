@@ -25,6 +25,84 @@ public class KaneFormulaValidator {
         return this.errorMessageRu;
     }
 
+    public boolean isSurgeonNameValid(String surgeonName) {
+        boolean isValid = false;
+
+        if (surgeonName == null) {
+            updateErrorLog("surgeon_name","Null","????");
+            updateErrorMessageRu("surgeon_name", "не был получен.");
+        }
+        else if (surgeonName.equals("")) {
+            isValid = true;
+        }
+        else {
+            isValid = true; // TODO valid?
+
+            if(!isValid) {
+                updateErrorLog("surgeon_name",surgeonName,"????");
+                updateErrorMessageRu("surgeon_name", "задан некорректно.");
+            }
+        }
+
+        return isValid;
+    }
+
+    public boolean isPatientNameValid(String patientName) {
+        boolean isValid = false;
+
+        if (patientName == null) {
+            updateErrorLog("patient_name","Null","????");
+            updateErrorMessageRu("patient_name", "не был получен.");
+        }
+        else if (patientName.equals("")) {
+            isValid = true;
+        }
+        else {
+            isValid = true; // TODO valid?
+
+            if(!isValid) {
+                updateErrorLog("patient_name",patientName,"????");
+                updateErrorMessageRu("patient_name", "задан некорректно.");
+            }
+        }
+
+        return isValid;
+    }
+
+    public boolean isPatientIdValid(String patientId) {
+        boolean isValid = false;
+
+        if (patientId == null) {
+            updateErrorLog("patient_id","Null","????");
+            updateErrorMessageRu("patient_id", "не был получен.");
+        }
+        else if (patientId.equals("")) {
+            isValid = true;
+        }
+        else {
+            isValid = true; // TODO valid?
+
+            if(!isValid) {
+                updateErrorLog("patient_id",patientId,"????");
+                updateErrorMessageRu("patient_id", "задан некорректно.");
+            }
+        }
+
+        return isValid;
+    }
+
+    public boolean isVarIsMaleValid(Boolean isMale) {
+        boolean isValid = true;
+
+        if (isMale == null) {
+            updateErrorLog("is_male","Null","true, false");
+            updateErrorMessageRu("is_male", "не был получен. Значение параметра должно быть ДА или НЕТ.");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
     public boolean isKindexValid(String kIndex) {
         boolean isValid = false;
 
@@ -79,7 +157,7 @@ public class KaneFormulaValidator {
         return isValid;
     }
 
-    public boolean isEyesValid(EyeDto rightEye, EyeDto leftEye) {
+    public boolean isOneOfEyesSet(EyeDto rightEye, EyeDto leftEye) {
         boolean isValid = true;
 
         if (leftEye == null && rightEye == null) {
