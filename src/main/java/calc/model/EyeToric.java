@@ -1,7 +1,6 @@
-package calc.eye.toric;
+package calc.model;
 
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -18,8 +17,6 @@ public class EyeToric {
     private String k2_axis;
     private String sia;
     private String incision;
-
-
 
 
     public EyeToric(String al, String k1, String k1_axis, String k2, String k2_axis,

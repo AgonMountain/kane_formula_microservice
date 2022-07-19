@@ -1,8 +1,6 @@
-package calc.eye.nontoric;
+package calc.model;
 
 import org.json.JSONObject;
-
-
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -17,8 +15,6 @@ public class EyeNonToric {
     private String cct;
 
 
-
-
     public EyeNonToric(String al, String k1, String k2, String acd, String lt, String cct) {
         this.al = al;
         this.k1 = k1;
@@ -27,7 +23,6 @@ public class EyeNonToric {
         this.lt = lt;
         this.cct = cct;
     }
-
     public JSONObject toJson() throws ParseException, IOException {
         JSONObject json = new JSONObject();
 

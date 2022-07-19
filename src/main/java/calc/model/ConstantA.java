@@ -1,7 +1,6 @@
-package calc.eye.constantA;
+package calc.model;
 
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -12,8 +11,6 @@ public class ConstantA {
     private String typeIndex;
     private String typeStr;
     private int sifiType;
-
-
 
 
     public ConstantA(String value, ConstantAType type) {

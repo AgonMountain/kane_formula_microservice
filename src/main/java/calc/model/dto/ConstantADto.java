@@ -1,16 +1,16 @@
-package calc.eye.constantA;
+package calc.model.dto;
 
-
+import calc.model.ConstantAType;
+import calc.model.validator.ConstantAValidator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONObject;
+
 
 public class ConstantADto {
 
     private @JsonProperty("value") String value;
     private @JsonProperty("type") String type;
     private ConstantAValidator validator;
-
-
 
 
     public ConstantADto(String value, String type) {

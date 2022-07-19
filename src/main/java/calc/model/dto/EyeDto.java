@@ -1,14 +1,13 @@
-package calc.eye;
+package calc.model.dto;
 
-import calc.eye.constantA.ConstantA;
-import calc.eye.constantA.ConstantADto;
-import calc.eye.constantA.ConstantAType;
-import calc.eye.nontoric.EyeNonToric;
-import calc.eye.nontoric.EyeNonToricDto;
-import calc.eye.toric.EyeToric;
-import calc.eye.toric.EyeToricDto;
+import calc.model.ConstantA;
+import calc.model.ConstantAType;
+import calc.model.EyeNonToric;
+import calc.model.EyeToric;
+import calc.model.validator.EyeValidator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONObject;
+
 
 public class EyeDto {
 
@@ -18,8 +17,6 @@ public class EyeDto {
     private @JsonProperty("eye_toric") EyeToricDto eyeToric;
     private @JsonProperty("eye_nontoric") EyeNonToricDto eyeNonToric;
     private EyeValidator validator;
-
-
 
 
     public EyeDto(Boolean isKeratoconus, String targetRefraction, ConstantADto constantA,

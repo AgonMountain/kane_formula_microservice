@@ -1,4 +1,4 @@
-package calc.eye.constantA;
+package calc.model;
 
 public enum ConstantAType {
 

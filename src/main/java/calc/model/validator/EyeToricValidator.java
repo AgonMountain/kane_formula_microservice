@@ -1,16 +1,15 @@
-package calc.eye.nontoric;
+package calc.model.validator;
 
 import org.json.JSONObject;
 
-public class EyeNonToricValidator {
+
+public class EyeToricValidator {
 
     private JSONObject errorLog;
     private JSONObject errorMessageRu;
 
 
-
-
-    public EyeNonToricValidator() {
+    public EyeToricValidator() {
         this.errorLog = new JSONObject();
         this.errorMessageRu = new JSONObject();
     }
@@ -171,6 +170,84 @@ public class EyeNonToricValidator {
                 updateErrorLog("cct", cct, "[350.0, 650.0]");
                 updateErrorMessageRu("cct",
                         "задан некорректно. Значение параметра должно быть в диапазоне от 350.0 до 650.0 включительно");
+            }
+        }
+
+        return isValid;
+    }
+
+    public boolean isSiaValid(String sia) {
+        boolean isValid = false;
+
+        if (sia == null) {
+            updateErrorLog("sia","Null","[0.0, 1.0]");
+            updateErrorMessageRu("sia",
+                    "не был получен. Значение параметра должно быть в диапазоне от 0.0 до 1.0 включительно");
+        }
+        else if (sia.equals("")) {
+            updateErrorLog("sia","Null","[0.0, 1.0]");
+            updateErrorMessageRu("sia",
+                    "не содержит значение. Значение параметра должно быть в диапазоне от 0.0 до 1.0 включительно");
+        }
+        else {
+            isValid = (0 <= Float.parseFloat(sia) && Float.parseFloat(sia) <= 1);
+
+            if(!isValid) {
+                updateErrorLog("sia", sia, "[0.0, 1.0]");
+                updateErrorMessageRu("sia",
+                        "задан некорректно. Значение параметра должно быть в диапазоне от 0.0 до 1.0 включительно");
+            }
+        }
+
+        return isValid;
+    }
+
+    public boolean isIncisionValid(String incision) {
+        boolean isValid = false;
+
+        if (incision == null) {
+            updateErrorLog("incision","Null","[0.0, 360.0]");
+            updateErrorMessageRu("incision",
+                    "не был получен. Значение параметра должно быть в диапазоне от 0.0 до 360.0 включительно");
+        }
+        else if (incision.equals("")) {
+            updateErrorLog("incision","Null","[0.0, 360.0]");
+            updateErrorMessageRu("incision",
+                    "не был получен. Значение параметра должно быть в диапазоне от 0.0 до 360.0 включительно");
+        }
+        else {
+            isValid = (0 <= Float.parseFloat(incision) && Float.parseFloat(incision) <= 360);
+
+            if(!isValid) {
+                updateErrorLog("incision", incision, "[0.0, 360.0]");
+                updateErrorMessageRu("incision",
+                        "задан некорректно. Значение параметра должно быть в диапазоне от 0.0 до 360.0 включительно");
+            }
+        }
+
+        return isValid;
+    }
+
+    public boolean isK1axisValid(String k1axis) {
+        boolean isValid = false;
+
+        if (k1axis == null) {
+            updateErrorLog("k1_axis","Null","[0.0, 180.0]");
+            updateErrorMessageRu("k1_axis",
+                    "не был получен. Значение параметра должно быть в диапазоне от 0.0 до 180.0 включительно");
+        }
+        else if (k1axis.equals("")) {
+            updateErrorLog("k1_axis","Null","[0.0, 180.0]");
+            updateErrorMessageRu("k1_axis",
+                    "не был получен. Значение параметра должно быть в диапазоне от 0.0 до 180.0 включительно");
+        }
+        else {
+            isValid = (0 <= Float.parseFloat(k1axis) && Float.parseFloat(k1axis) <= 180);
+
+            if(!isValid) {
+                updateErrorLog("k1_axis", k1axis, "[0.0, 180.0]");
+                updateErrorMessageRu("k1_axis",
+                        "задан некорректно. Значение параметра должно быть в диапазоне от 0.0 до 180.0 включительно");
             }
         }
 

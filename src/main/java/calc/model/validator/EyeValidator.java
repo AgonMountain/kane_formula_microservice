@@ -1,14 +1,16 @@
-package calc.eye;
+package calc.model.validator;
 
-import calc.eye.constantA.ConstantADto;
-import calc.eye.nontoric.EyeNonToricDto;
-import calc.eye.toric.EyeToricDto;
+import calc.model.dto.ConstantADto;
+import calc.model.dto.EyeNonToricDto;
+import calc.model.dto.EyeToricDto;
 import org.json.JSONObject;
+
 
 public class EyeValidator {
 
     private JSONObject errorLog;
     private JSONObject errorMessageRu;
+
 
     public EyeValidator() {
         this.errorLog = new JSONObject();

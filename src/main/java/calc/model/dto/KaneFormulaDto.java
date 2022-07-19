@@ -1,10 +1,10 @@
-package calc;
+package calc.model.dto;
 
-
-import calc.eye.Eye;
-import calc.eye.EyeDto;
+import calc.model.Eye;
+import calc.model.validator.KaneFormulaValidator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONObject;
+
 
 public class KaneFormulaDto {
 
@@ -16,8 +16,6 @@ public class KaneFormulaDto {
     private @JsonProperty("right_eye") EyeDto rightEye;
     private @JsonProperty("left_eye") EyeDto leftEye;
     private KaneFormulaValidator validator;
-
-
 
 
     public KaneFormulaDto(String surgeonName, String patientName, String patientId,

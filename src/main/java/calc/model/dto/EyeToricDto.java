@@ -1,10 +1,10 @@
-package calc.eye.nontoric;
+package calc.model.dto;
 
-
+import calc.model.validator.EyeToricValidator;
 import org.json.JSONObject;
 
 
-public class EyeNonToricDto {
+public class EyeToricDto {
 
     private String al;
     private String k1;
@@ -12,20 +12,27 @@ public class EyeNonToricDto {
     private String acd;
     private String lt;
     private String cct;
-    private EyeNonToricValidator validator;
+    private String k1_axis;
+    private String sia;
+    private String incision;
+    private EyeToricValidator validator;
 
 
-
-
-    public EyeNonToricDto(String al, String k1, String k2, String acd, String lt, String cct) {
+    public EyeToricDto(String al, String k1, String k2, String acd,
+                String lt, String cct, String k1_axis,
+                String sia, String incision) {
+        
         this.al = al;
         this.k1 = k1;
         this.k2 = k2;
         this.acd = acd;
         this.lt = lt;
         this.cct = cct;
+        this.k1_axis = k1_axis;
+        this.sia = sia;
+        this.incision = incision;
 
-        this.validator = new EyeNonToricValidator();
+        this.validator = new EyeToricValidator();
     }
 
     public String getAl() {
@@ -52,6 +59,24 @@ public class EyeNonToricDto {
         return this.cct;
     }
 
+    public String getK1axis() {
+        return this.k1_axis;
+    }
+
+    public String getK2axis() {
+        return (Integer.parseInt(k1_axis) + 90 > 180) ?
+                Integer.toString(Integer.parseInt(k1_axis) - 90) :
+                Integer.toString(Integer.parseInt(k1_axis) + 90);
+    }
+
+    public String getSia() {
+        return this.sia;
+    }
+
+    public String getIncision() {
+        return this.incision;
+    }
+
     public boolean isValid() {
         Boolean isValid = this.validator.isAlValid(this.al);
         isValid = this.validator.isK1Valid(this.k1) && isValid;
@@ -59,6 +84,9 @@ public class EyeNonToricDto {
         isValid = this.validator.isAcdValid(this.acd) && isValid;
         isValid = this.validator.isLtValid(this.lt) && isValid;
         isValid = this.validator.isCctValid(this.cct) && isValid;
+        isValid = this.validator.isIncisionValid(this.incision) && isValid;
+        isValid = this.validator.isK1axisValid(this.k1) && isValid;
+        isValid = this.validator.isSiaValid(this.sia) && isValid;
 
         return isValid;
     }
@@ -70,4 +98,5 @@ public class EyeNonToricDto {
     public JSONObject errorMessagesRu() {
         return this.validator.getErrorMessageRu();
     }
+
 }

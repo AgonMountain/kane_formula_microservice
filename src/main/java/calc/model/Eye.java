@@ -1,12 +1,8 @@
-package calc.eye;
+package calc.model;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Iterator;
-
-import calc.eye.constantA.ConstantA;
-import calc.eye.nontoric.EyeNonToric;
-import calc.eye.toric.EyeToric;
 import org.json.JSONObject;
 
 
@@ -17,6 +13,7 @@ public class Eye {
     private ConstantA constantA;
     private EyeToric eyeToric;
     private EyeNonToric eyeNonToric;
+
 
     public Eye() {}
 
@@ -50,7 +47,6 @@ public class Eye {
 
         return json;
     }
-
     private JSONObject embed(JSONObject main, JSONObject embedded) {
         JSONObject newJson = new JSONObject(main, JSONObject.getNames(main));
         Iterator<String> key = embedded.keys();

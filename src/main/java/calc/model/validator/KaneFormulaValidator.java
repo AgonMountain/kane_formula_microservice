@@ -1,6 +1,6 @@
-package calc;
+package calc.model.validator;
 
-import calc.eye.EyeDto;
+import calc.model.dto.EyeDto;
 import org.json.JSONObject;
 
 
@@ -8,8 +8,6 @@ public class KaneFormulaValidator {
 
     private JSONObject errorLog;
     private JSONObject errorMessageRu;
-
-
 
 
     public KaneFormulaValidator() {

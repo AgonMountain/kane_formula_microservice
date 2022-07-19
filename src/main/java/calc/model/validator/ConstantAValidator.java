@@ -1,13 +1,12 @@
-package calc.eye.constantA;
+package calc.model.validator;
 
 import org.json.JSONObject;
+
 
 public class ConstantAValidator {
 
     private JSONObject errorLog;
     private JSONObject errorMessageRu;
-
-
 
 
     public ConstantAValidator() {
